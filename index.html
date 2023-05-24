@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Wumpus Game</title>
+  <style>
+    pre {
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <pre id="gameOutput"></pre>
+  <input type="text" id="commandInput" placeholder="Enter a command...">
+  <button onclick="processCommand()">Submit</button>
+
+  <script>
+    // Game state variables
+    let gameOutput = document.getElementById('gameOutput');
+    let commandInput = document.getElementById('commandInput');
+    let currentRoom = 1;
+    let gameOver = false;
+
+    // Function to display game output
+    function displayOutput(text) {
+      gameOutput.innerText += text + '\n';
+    }
+
+    // Function to process user commands
+    function processCommand() {
+      if (gameOver) {
+        displayOutput('Game over! Please refresh the page to start a new game.');
+        return;
+      }
+
+      let command = commandInput.value.toLowerCase().trim();
+
+      switch (command) {
+        case 'north':
+          if (currentRoom === 1) {
+            currentRoom = 2;
+            displayOutput('You move north into room 2.');
+          } else if (currentRoom === 2) {
+            currentRoom = 3;
+            displayOutput('You move north into room 3.');
+          } else {
+            displayOutput('You cannot move north from here.');
+          }
+          break;
+
+        case 'south':
+          if (currentRoom === 2) {
+            currentRoom = 1;
+            displayOutput('You move south into room 1.');
+          } else if (currentRoom === 3) {
+            currentRoom = 2;
+            displayOutput('You move south into room 2.');
+          } else {
+            displayOutput('You cannot move south from here.');
+          }
+          break;
+
+        case 'quit':
+          displayOutput('You quit the game.');
+          gameOver = true;
+          break;
+
+        default:
+          displayOutput('Invalid command. Try "north", "south", or "quit".');
+          break;
+      }
+
+      commandInput.value = '';
+    }
+  </script>
+</body>
+</html>
